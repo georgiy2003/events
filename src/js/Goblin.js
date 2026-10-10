@@ -1,46 +1,37 @@
-import Goblin from './Goblin';
 
-export default class Game {
-  constructor(board) {
-    this.board = board;
-    this.goblin = new Goblin();
+import goblinImage from '../images/GracefulMiniatureBustard-small.gif';
 
-    this.score = 0;
-    this.misses = 0;
+export default class Goblin {
+  constructor() {
+    this.cell = null;
+    this.image = null;
   }
 
-  start() {
-    const showGoblin = () => {
-      let timer;
+  getRandomCell(cells) {
+    const randomIndex = Math.floor(Math.random() * cells.length);
 
-      this.goblin.show(this.board.cells, () => {
-        clearTimeout(timer);
+    return cells[randomIndex];
+  }
 
-        this.goblin.hide();
+  show(cells, onHit) {
+    this.hide();
 
-        this.score += 1;
+    this.cell = this.getRandomCell(cells);
+    this.image = document.createElement('img');
 
-        console.log(`Счёт: ${this.score}`);
+    this.image.src = goblinImage;
+    this.image.classList.add('goblin');
+    this.image.addEventListener('click', onHit, { once: true });
 
-        showGoblin();
-      });
+    this.cell.append(this.image);
+  }
 
-      timer = setTimeout(() => {
-        this.goblin.hide();
+  hide() {
+    if (this.image) {
+      this.image.remove();
+    }
 
-        this.misses += 1;
-
-        console.log(`Промахов: ${this.misses}`);
-
-        if (this.misses >= 5) {
-          console.log('Игра окончена');
-          return;
-        }
-
-        showGoblin();
-      }, 1000);
-    };
-
-    showGoblin();
+    this.image = null;
+    this.cell = null;
   }
 }

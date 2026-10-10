@@ -1,3 +1,5 @@
+const BOARD_CELLS_COUNT = 16;
+
 export default class Board {
   constructor(element) {
     this.element = element;
@@ -5,7 +7,7 @@ export default class Board {
   }
 
   createCells() {
-    for (let i = 0; i < 16; i += 1) {
+    for (let i = 0; i < BOARD_CELLS_COUNT; i += 1) {
       const cell = document.createElement('div');
 
       cell.classList.add('cell');
